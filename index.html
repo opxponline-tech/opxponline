@@ -1,33 +1,204 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Business</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OPXP Online: Buy and sell TCG collections in Baltimore. No listing hassle. Fair prices. Fast payouts. Local pickup available.">
+  <title>OPXP Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
   <style>
+    :root {
+      --void: #111318;
+      --slate: #1B1F27;
+      --elevated: #252B36;
+      --violet: #7C3AED;
+      --violet-hover: #6D28D9;
+      --cyan: #22D3EE;
+      --ivory: #F4F1EA;
+      --text: #F8FAFC;
+      --muted: #A7B0BF;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --error: #F43F5E;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --void: #F4F1EA;
+        --slate: #FFFFFF;
+        --elevated: #E7E2D8;
+        --text: #242832;
+        --muted: #6D6D7D;
+      }
+    }
+
+    :root[data-theme="light"] {
+      --void: #F4F1EA;
+      --slate: #FFFFFF;
+      --elevated: #E7E2D8;
+      --text: #242832;
+      --muted: #6D6D7D;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 48px 20px;
-      font-family: Arial, sans-serif;
+      font-family: var(--font-body);
+      background-color: var(--void);
+      color: var(--text);
       line-height: 1.6;
-      color: #1f2937;
+      font-size: 16px;
     }
-    h1 { color: #0f766e; }
-    .button {
-      display: inline-block;
-      padding: 12px 18px;
-      background: #0f766e;
-      color: white;
-      border-radius: 6px;
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 700;
+      text-wrap: balance;
+      margin-top: 0;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--violet);
       text-decoration: none;
+      transition: opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
-  </style>
-</head>
-<body>
-  <h1>My Business</h1>
-  <p>Professional service in Perry Hall and the surrounding area.</p>
-  <p>Clear pricing, reliable communication, and quality work.</p>
-  <a class="button" href="mailto:you@example.com">Request a quote</a>
-</body>
-</html>
+
+    a:hover {
+      opacity: 0.9;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      background-color: var(--void);
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--elevated);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--violet);
+    }
+
+    .nav-links {
+      display: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+    }
+
+    .nav-link {
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 6rem 0;
+      background: linear-gradient(135deg, var(--void) 0%, var(--slate) 100%);
+    }
+
+    .hero-content {
+      max-width: 700px;
+    }
+
+    .hero h1 {
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .cta-primary {
+      display: inline-block;
+      background-color: var(--violet);
+      color: #ffffff;
+      padding: 1rem 2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    }
+
+    .cta-primary:hover {
+      background-color: var(--violet-hover);
+      box-shadow: 0 6px 16px rgba(124, 58,
