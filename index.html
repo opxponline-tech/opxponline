@@ -1,33 +1,668 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Business</title>
-  <style>
-    body {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 48px 20px;
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #1f2937;
-    }
-    h1 { color: #0f766e; }
-    .button {
-      display: inline-block;
-      padding: 12px 18px;
-      background: #0f766e;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OPXP Online: Buy and sell TCG collections in Baltimore. No listing hassle. Fair prices. Fast payouts. Local pickup available.">
+    <title>OPXP Online</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+    <style>
+        :root {
+            --void: #111318;
+            --slate: #1B1F27;
+            --elevated: #252B36;
+            --violet: #7C3AED;
+            --cyan: #22D3EE;
+            --ivory: #F4F1EA;
+            --text: #F8FAFC;
+            --muted: #A7B0BF;
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --error: #F43F5E;
+
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        @media (prefers-color-scheme: light) and (not (all and (display-mode: standalone))) {
+            :root:not([data-theme="dark"]) {
+                --void: #F4F1EA;
+                --slate: #FFFFFF;
+                --elevated: #F8F7F5;
+                --text: #242832;
+                --muted: #6D6D7D;
+            }
+        }
+
+        :root[data-theme="light"] {
+            --void: #F4F1EA;
+            --slate: #FFFFFF;
+            --elevated: #F8F7F5;
+            --text: #242832;
+            --muted: #6D6D7D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--void);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            font-weight: 700;
+            text-wrap: balance;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        a {
+            color: var(--violet);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        a:focus-visible {
+            outline: 2px solid var(--cyan);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--void);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--elevated);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo span {
+            color: var(--violet);
+        }
+
+        nav-links {
+            display: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            nav-links {
+                display: flex;
+            }
+        }
+
+        .nav-link {
+            color: var(--muted);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--void) 0%, var(--slate) 100%);
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background-color: var(--violet);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .cta-primary:hover {
+            background-color: #6D28D9;
+            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .cta-primary:focus-visible {
+            outline: 2px solid var(--cyan);
+            outline-offset: 2px;
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--elevated);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        .section-header p {
+            font-size: 1.0625rem;
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Value Props Grid */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .value-card {
+            background-color: var(--slate);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--elevated);
+            transition: all 0.3s;
+        }
+
+        .value-card:hover {
+            border-color: var(--violet);
+            transform: translateY(-4px);
+        }
+
+        .value-card h3 {
+            color: var(--cyan);
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-card p {
+            color: var(--muted);
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+
+        /* Categories Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-item {
+            background-color: var(--slate);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--elevated);
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .category-item:hover {
+            border-color: var(--cyan);
+        }
+
+        .category-item h3 {
+            margin: 0;
+            color: var(--text);
+            font-size: 1.125rem;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background-color: var(--violet);
+            color: white;
+            border-radius: 50%;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            margin-top: 0;
+        }
+
+        .step p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* Shop Links Grid */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .shop-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--slate);
+            padding: 2rem 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--elevated);
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: var(--font-display);
+        }
+
+        .shop-link:hover {
+            border-color: var(--violet);
+            background-color: var(--elevated);
+        }
+
+        /* Newsletter */
+        .newsletter-section {
+            background-color: var(--slate);
+            border: 1px solid var(--elevated);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-section h2 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        .newsletter-section p {
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-label {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-value {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background-color: var(--slate);
+            border: 1px solid var(--elevated);
+            border-radius: 6px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .social-link:hover {
+            background-color: var(--violet);
+            border-color: var(--violet);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--slate);
+            padding: 2rem 0;
+            border-top: 1px solid var(--elevated);
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        /* Utilities */
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-muted {
+            color: var(--muted);
+        }
+
+        .highlight {
+            color: var(--cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .hero {
+                padding: 4rem 0;
+            }
+
+            section {
+                padding: 3rem 0;
+            }
+
+            .newsletter-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .process-steps {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @media (prefers-reduced-motion: no-preference) {
+            .value-card,
+            .category-item,
+            .shop-link {
+                transition: all 0.3s ease;
+            }
+
+            .cta-primary {
+                transition: all 0.2s ease;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>My Business</h1>
-  <p>Professional service in Perry Hall and the surrounding area.</p>
-  <p>Clear pricing, reliable communication, and quality work.</p>
-  <a class="button" href="mailto:you@example.com">Request a quote</a>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">OPXP <span>Online</span></div>
+                <nav-links>
+                    <a href="#why" class="nav-link">Why OPXP</a>
+                    <a href="#sell" class="nav-link">Sell</a>
+                    <a href="#shop" class="nav-link">Shop</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav-links>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Turn Your Bulk Cards into Cash—Fast</h1>
+                <p>Skip the listing hassle. No auctions. No haggling. Get competitive rates for your collection and walk away with cash the same day. Local pickup in the Baltimore area, or we handle shipping.</p>
+                <a href="https://forms.gle/YOUR_FORM_ID" target="_blank" class="cta-primary">Submit Your Collection</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why OPXP -->
+    <section id="why">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why OPXP</h2>
+                <p>Collectors know: real money comes from moving bulk fast.</p>
+            </div>
+            <div class="value-grid">
+                <div class="value-card">
+                    <h3>No Listing Hassle</h3>
+                    <p>Don't spend weeks photographing, listing, and fielding lowball offers. We handle the work. You get your cash.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Competitive Rates</h3>
+                    <p>We price fairly for bulk collections. You're not leaving money on the table. You're just trading time for convenience.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Fast & Local</h3>
+                    <p>Based in Baltimore County. We pick up collections on weekends or handle shipping. No waiting weeks for payment—we quote and settle quickly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Buy -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>What We Buy</h2>
+                <p>We're currently focused on Pokémon singles and Magic: The Gathering bulk collections.</p>
+            </div>
+            <div class="category-grid">
+                <div class="category-item">
+                    <h3>Pokémon</h3>
+                </div>
+                <div class="category-item">
+                    <h3>Magic: The Gathering</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Sell -->
+    <section id="sell">
+        <div class="container">
+            <div class="section-header">
+                <h2>How to Sell Your Collection</h2>
+                <p>Three simple steps from collection to cash.</p>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Submit</h3>
+                    <p>Tell us what you have. Fill out our form with photos, quantities, and condition notes.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Get Quoted</h3>
+                    <p>We review your collection and send you a fair offer within 1–2 business days.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Paid</h3>
+                    <p>Accept the offer. We pick up locally or cover shipping. You receive payment immediately.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="https://forms.gle/YOUR_FORM_ID" target="_blank" class="cta-primary">Start Your Submission</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Where to Shop -->
+    <section id="shop">
+        <div class="container">
+            <div class="section-header">
+                <h2>Where to Shop</h2>
+                <p>Browse our inventory across multiple platforms.</p>
+            </div>
+            <div class="shop-grid">
+                <a href="https://www.ebay.com/str/OPXP-Online" target="_blank" class="shop-link">eBay Store</a>
+                <a href="https://www.facebook.com/YOUR_PAGE" target="_blank" class="shop-link">Facebook Shop</a>
+                <a href="https://www.tiktok.com/@opxp.online" target="_blank" class="shop-link">TikTok Shop</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section>
+        <div class="container">
+            <div class="newsletter-section">
+                <h2>Stay Updated</h2>
+                <p>New listings, buying opportunities, and announcements—straight to your inbox.</p>
+                <script async data-uid="597028f632" src="https://opxp-online.kit.com/forms/597028f632/embed.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact">
+        <div class="container">
+            <h2 style="color: var(--text); margin-top: 0;">Get in Touch</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-label">Email</div>
+                    <a href="mailto:opxponline@gmail.com" class="contact-value">opxponline@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Location</div>
+                    <div class="contact-value">Baltimore County, MD</div>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://www.tiktok.com/@opxp.online" target="_blank" class="social-link" title="TikTok">TK</a>
+                <a href="https://www.instagram.com/opxp.online" target="_blank" class="social-link" title="Instagram">IG</a>
+                <a href="https://www.facebook.com/61578408144310" target="_blank" class="social-link" title="Facebook">FB</a>
+            </div>
+            <p style="margin-top: 2rem; border-top: 1px solid var(--elevated); padding-top: 2rem;">© 2026 OPXP Online. Buy and sell TCG collections in Baltimore.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
