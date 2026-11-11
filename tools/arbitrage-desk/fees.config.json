@@ -1,0 +1,399 @@
+{
+  "fee_schedule_version": "2026-11-10-verified",
+  "last_verified": "2026-11-10",
+  "verification_note": "Rates below were checked against the platforms' published seller fee schedules on 2026-11-10 (US sellers; Collectible Card Games, Sports Trading Cards and Non-Sport Trading Cards categories). Lines marked estimated depend on a state sales-tax rate or on an interpretation the source does not spell out; those are called out in FEE-VERIFICATION.md. This tool does not model promotional pricing, seller subscription benefits beyond the selected tier, international fees, dispute fees, fulfillment-failure fees, or advertising.",
+  "default_tax_rate": 0.065,
+  "tax_rate_note": "6.5% is a flat placeholder for buyer sales tax. It only matters where the fee base includes sales tax: the eBay final value fee and TCGplayer payment processing. Replace it per buyer state.",
+  "venues": [
+    {
+      "id": "ebay",
+      "name": "eBay (Trading Cards)",
+      "confidence": "verified",
+      "last_verified": "2026-11-10",
+      "default_profile": "basic",
+      "profiles": [
+        {
+          "id": "no_store",
+          "name": "No Store",
+          "detail": "13.25% through $7,500 per item",
+          "lines": {
+            "ebay_fvf": {
+              "rate": 0.1325,
+              "rate_above": 0.0235,
+              "breakpoint": 7500
+            }
+          }
+        },
+        {
+          "id": "starter",
+          "name": "Starter",
+          "detail": "13.25% through $7,500 per item",
+          "lines": {
+            "ebay_fvf": {
+              "rate": 0.1325,
+              "rate_above": 0.0235,
+              "breakpoint": 7500
+            }
+          }
+        },
+        {
+          "id": "basic",
+          "name": "Basic",
+          "detail": "12.35% through $2,500 per item",
+          "lines": {
+            "ebay_fvf": {
+              "rate": 0.1235,
+              "rate_above": 0.0235,
+              "breakpoint": 2500
+            }
+          }
+        },
+        {
+          "id": "premium",
+          "name": "Premium",
+          "detail": "12.35% through $2,500 per item",
+          "lines": {
+            "ebay_fvf": {
+              "rate": 0.1235,
+              "rate_above": 0.0235,
+              "breakpoint": 2500
+            }
+          }
+        },
+        {
+          "id": "anchor",
+          "name": "Anchor",
+          "detail": "12.35% through $2,500 per item",
+          "lines": {
+            "ebay_fvf": {
+              "rate": 0.1235,
+              "rate_above": 0.0235,
+              "breakpoint": 2500
+            }
+          }
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise",
+          "detail": "12.35% through $2,500 per item",
+          "lines": {
+            "ebay_fvf": {
+              "rate": 0.1235,
+              "rate_above": 0.0235,
+              "breakpoint": 2500
+            }
+          }
+        }
+      ],
+      "seller_profile": "Basic store subscription (12.35%). No Store and Starter are 13.25% through $7,500 per item; see the tier picker. The fixed $0.30 / $0.40 per-order fee is identical at every subscription level (No Store, Starter, Basic, Premium, Anchor, Enterprise). Store subscription changes the percentage rate only.",
+      "buyer_shipping_credit": 0,
+      "tax_drag_rate": 0.065,
+      "sources": [
+        "eBay Store selling fees",
+        "eBay subscriptions and fees",
+        "eBay fee schedule"
+      ],
+      "notes": "Final value fee is 12.35% through $2,500 per item and 2.35% on the portion above $2,500. Buyer-paid shipping and buyer sales tax are both inside the percentage base, so the fee is calculated on price + shipping + tax. The $0.30 / $0.40 per-order fee uses the total order amount, which includes buyer-paid shipping and buyer sales tax, and the same fixed fee applies at every store subscription level. The fee is per order (one buyer, one checkout, one shipping method); this tool prices one card at a time, so a multi-card checkout is understated by one per-order fee. A separate payment-processing percentage must not be added: processing is already inside the final value fee. International transactions can add 1.65% and performance surcharges can add up to 6 points; neither is modeled.",
+      "alternates": [
+        {
+          "name": "No Store",
+          "final_value_fee_rate": 0.1325,
+          "breakpoint": 7500,
+          "rate_above": 0.0235,
+          "per_order_fee": "$0.30 up to $10 total order, $0.40 above (same rule at every level)"
+        },
+        {
+          "name": "Starter",
+          "final_value_fee_rate": 0.1325,
+          "breakpoint": 7500,
+          "rate_above": 0.0235,
+          "per_order_fee": "$0.30 up to $10 total order, $0.40 above (same rule at every level)"
+        }
+      ],
+      "lines": [
+        {
+          "id": "ebay_fvf",
+          "label": "eBay final value fee (trading cards)",
+          "type": "graduated",
+          "base": "tax_base",
+          "rate": 0.1235,
+          "rate_above": 0.0235,
+          "breakpoint": 2500,
+          "confidence": "estimated",
+          "note": "Rate is 12.35% through $2,500 per item and 2.35% on the portion above. The rate is published. eBay calculates the high-value breakpoint per item rather than against a combined order total, and the fee base includes buyer shipping and buyer sales tax, so this applies the threshold to the item's own tax-inclusive total sale amount. That reading is ours, not eBay's wording, and it only matters on items above $2,500. A separate payment-processing percentage must not be added."
+        },
+        {
+          "id": "ebay_per_order",
+          "label": "eBay per-order fee",
+          "type": "tiers",
+          "base": "tax_base",
+          "tiers": [
+            {
+              "upTo": 10.0,
+              "fee": 0.3
+            },
+            {
+              "upTo": null,
+              "fee": 0.4
+            }
+          ],
+          "confidence": "verified",
+          "note": "$0.30 when the total order is $10 or less, $0.40 when it exceeds $10. The threshold is measured on the total order amount, which includes buyer-paid shipping and buyer sales tax, so the base here is the tax-inclusive order total. The same fixed fee applies at every store subscription level (No Store, Starter, Basic, Premium, Anchor, Enterprise); only the percentage rate changes with the subscription. The sales-tax rate inside the base is the 6.5% placeholder in default_tax_rate, so the exact card price that crosses $10 shifts slightly with the buyer's state."
+        }
+      ]
+    },
+    {
+      "id": "tcgplayer",
+      "name": "TCGplayer Marketplace (Standard, Levels 1-4)",
+      "confidence": "verified",
+      "last_verified": "2026-11-10",
+      "seller_profile": "Standard Marketplace seller",
+      "buyer_shipping_credit": 0,
+      "tax_drag_rate": 0.065,
+      "tax_on_shipping": false,
+      "sources": [
+        "TCGplayer fee schedule",
+        "TCGplayer Marketplace fee-cap FAQ",
+        "TCGplayer fee calculation examples",
+        "TCGplayer Pro pricing"
+      ],
+      "notes": "Standard Marketplace commission is 10.75% for seller Levels 1-4. Pro and Sync are 9.25% commission plus their own program fees, which is not cheaper before caps (9.25% + 2.5% Pro = 11.75%). Direct is a separate program with its own pricing. The $75 commission cap is per product/card, not per order and not per month, so two $1,000 cards produce $150 of capped commission. Shipping commission is charged at the commission rate and is not capped. Payment processing is 2.5% of items + buyer-paid shipping + sales tax plus $0.30 per transaction, and is not covered by the $75 cap. International processing is 3.5% + $0.30. Older pages still show 10.25% and a $50 cap; 10.75% with a $75 cap took effect February 10, 2026. The $0.30 processing charge is nonrefundable on seller-initiated full refunds.",
+      "alternates": [
+        {
+          "name": "Pro (non-Direct)",
+          "commission_rate": 0.0925,
+          "additional": "2.5% Pro fee plus payment processing"
+        },
+        {
+          "name": "Sync (non-Direct)",
+          "commission_rate": 0.0925,
+          "additional": "Sync-provider charges plus payment processing"
+        },
+        {
+          "name": "Direct",
+          "commission_rate": 0.0895,
+          "additional": "Cards $0.40-$2.49: 50% of item price with commission and transaction fees waived. Cards $2.50+: $1.12 per item plus 8.95% commission and 2.5% processing, and the $0.30 transaction fee is removed."
+        }
+      ],
+      "lines": [
+        {
+          "id": "tcg_commission",
+          "label": "Marketplace commission",
+          "type": "percent",
+          "base": "price",
+          "rate": 0.1075,
+          "cap": 75.0,
+          "confidence": "verified",
+          "note": "Cap is per product/card. Older draft had the cap on the order total; the cap is per card."
+        },
+        {
+          "id": "tcg_shipping_commission",
+          "label": "Shipping commission",
+          "type": "percent",
+          "base": "buyer_shipping",
+          "rate": 0.1075,
+          "confidence": "verified",
+          "note": "Charged on buyer-paid shipping at the commission rate and not capped."
+        },
+        {
+          "id": "tcg_processing",
+          "label": "Payment processing",
+          "type": "percent_fixed",
+          "base": "processing_tax_base",
+          "rate": 0.025,
+          "fixed": 0.3,
+          "confidence": "estimated",
+          "note": "The published base is items + buyer-paid shipping + buyer sales tax, plus $0.30 per transaction. The tax is computed on the item only, because most US states do not tax shipping, and the rate used here is the placeholder in default_tax_rate."
+        },
+        {
+          "id": "tcg_pro_fee",
+          "label": "TCGplayer Pro fee",
+          "type": "percent",
+          "base": "price",
+          "rate": 0.0,
+          "confidence": "estimated",
+          "note": "The 2.5% Pro fee applies to Pro sellers only. It is a venue-level line kept at 0 for the Standard profile, which is overridden by the pro profile. The published base for the Pro fee is not stated in the fee schedule, so items only is used here and buyer-paid shipping is excluded. That base choice is ours, not TCGplayer's wording."
+        }
+      ],
+      "default_profile": "standard",
+      "profiles": [
+        {
+          "id": "standard",
+          "name": "Standard Marketplace (Levels 1-4)",
+          "detail": "10.75% commission, $75 cap per card",
+          "lines": {
+            "tcg_commission": {
+              "rate": 0.1075
+            },
+            "tcg_shipping_commission": {
+              "rate": 0.1075
+            },
+            "tcg_pro_fee": {
+              "rate": 0.0
+            }
+          }
+        },
+        {
+          "id": "pro",
+          "name": "Pro (non-Direct)",
+          "detail": "9.25% commission + 2.5% Pro fee, shared $75 cap per card",
+          "lines": {
+            "tcg_commission": {
+              "rate": 0.0925
+            },
+            "tcg_shipping_commission": {
+              "rate": 0.0925
+            },
+            "tcg_pro_fee": {
+              "rate": 0.025
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "vinted",
+      "name": "Vinted US (standard account)",
+      "confidence": "verified",
+      "last_verified": "2026-11-10",
+      "seller_profile": "US standard account",
+      "buyer_shipping_credit": 0,
+      "tax_drag_rate": 0,
+      "sources": [
+        "Vinted US price list",
+        "Vinted selling basics",
+        "Vinted US shipping information",
+        "Vinted buyer fee",
+        "Vinted commercial-selling policy"
+      ],
+      "eligibility_note": "US standard accounts exclude commercial sourcing and resale, and Vinted Pro is not available in the US. A resale business may not be eligible to use this venue at all.",
+      "notes": "US standard accounts charge the seller no commission and no payment-processing deduction, and the seller is not charged for the buyer-funded prepaid label: the seller receives the full sale amount. The buyer covers shipping and a platform fee (usually 5% + $0.70, but Vinted varies it by item and order characteristics). Packaging and fulfillment costs remain the seller's. Mis-sizing a package can produce carrier charges that Vinted says may not be reimbursed.",
+      "lines": [
+        {
+          "id": "vinted_seller_fee",
+          "label": "Vinted seller fees (none)",
+          "type": "fixed",
+          "base": "price",
+          "fixed": 0,
+          "confidence": "verified",
+          "note": "Seller commission $0, no seller payment-processing fee, and no deduction for the supplied buyer-funded prepaid label."
+        }
+      ]
+    },
+    {
+      "id": "misprint",
+      "name": "Misprint (raw card tier)",
+      "confidence": "verified",
+      "last_verified": "2026-11-10",
+      "seller_profile": "Seller Rewards baseline tier",
+      "default_profile": "baseline",
+      "profiles": [
+        {
+          "id": "baseline",
+          "name": "Seller Rewards baseline",
+          "detail": "7% commission, 3% processing + $0.30",
+          "lines": {
+            "misprint_commission": {
+              "rate": 0.07
+            }
+          }
+        },
+        {
+          "id": "tier1",
+          "name": "Seller Rewards Tier 1",
+          "detail": "6.5% commission, 3% processing + $0.30",
+          "lines": {
+            "misprint_commission": {
+              "rate": 0.065
+            }
+          }
+        },
+        {
+          "id": "tier2",
+          "name": "Seller Rewards Tier 2",
+          "detail": "6% commission, 3% processing + $0.30",
+          "lines": {
+            "misprint_commission": {
+              "rate": 0.06
+            }
+          }
+        },
+        {
+          "id": "tier3",
+          "name": "Seller Rewards Tier 3",
+          "detail": "5.5% commission, 3% processing + $0.30",
+          "lines": {
+            "misprint_commission": {
+              "rate": 0.055
+            }
+          }
+        },
+        {
+          "id": "tier4",
+          "name": "Seller Rewards Tier 4",
+          "detail": "5% commission, 3% processing + $0.30",
+          "lines": {
+            "misprint_commission": {
+              "rate": 0.05
+            }
+          }
+        }
+      ],
+      "buyer_shipping_credit": {
+        "tiers": [
+          {
+            "upTo": 50.0,
+            "fee": 2.5,
+            "exclusive": true
+          }
+        ],
+        "default": 5.0
+      },
+      "tax_drag_rate": 0,
+      "fee_base": {
+        "commission_includes_shipping": true,
+        "commission_includes_sales_tax": false,
+        "processing_includes_shipping": true,
+        "processing_includes_sales_tax": false,
+        "sales_tax_is_seller_revenue": false,
+        "source": "Misprint payout calculator (published fee-base formula)"
+      },
+      "sources": [
+        "Misprint seller levels and fees",
+        "Misprint Seller Rewards",
+        "Misprint payout calculation",
+        "Misprint seller guide",
+        "Misprint seller sales tax"
+      ],
+      "notes": "Baseline commission is 7% with 3% processing plus $0.30 per order; Seller Rewards tiers lower the commission to 6.5% / 6% / 5.5% / 5% with the same processing. Both commission and processing apply to buyer-paid shipping, so the shipping charge passed to the seller is itself charged. Buyer sales tax is NOT part of either fee base and is not seller revenue: Misprint's published payout formula calculates commission and processing on item price plus buyer-paid shipping only, and tax is collected and remitted by Misprint where it collects. Tax is therefore not applied here. On the portion of an item's price above $7,500 the combined platform commission and processing drops to 3.5%, per item, so three $3,000 cards do not qualify. The buyer shipping charge passed to the seller is $2.50 for raw orders under $50, $5 for other raw orders, graded cards and sealed packs, and $10 for sealed boxes. There are no listing or insertion fees.",
+      "alternates": [],
+      "lines": [
+        {
+          "id": "misprint_commission",
+          "label": "Platform commission",
+          "type": "graduated",
+          "base": "order_total",
+          "rate": 0.07,
+          "rate_above": 0.02,
+          "breakpoint": 7500,
+          "breakpoint_base": "item",
+          "confidence": "estimated",
+          "note": "The published base is item price plus buyer-paid shipping, and buyer sales tax is excluded from it. Above $7,500 of an individual item's price the combined commission and processing is 3.5%. The source states only the combined figure, so it is split here as 2% commission + 1.5% processing. The breakpoint is published on the item price while fees also apply to the buyer shipping charge, so the item portion is graduated and the shipping portion is charged at the standard rate. That apportionment is our reading, not Misprint's wording."
+        },
+        {
+          "id": "misprint_processing",
+          "label": "Payment processing",
+          "type": "graduated",
+          "base": "order_total",
+          "rate": 0.03,
+          "rate_above": 0.015,
+          "breakpoint": 7500,
+          "breakpoint_base": "item",
+          "fixed": 0.3,
+          "confidence": "estimated",
+          "note": "3% of item price plus buyer-paid shipping, plus $0.30 per order. Buyer sales tax is excluded from the published base. The $0.30 is kept in place above the breakpoint because the source does not say it is waived there."
+        }
+      ]
+    }
+  ]
+}

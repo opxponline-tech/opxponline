@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPXP Arbitrage Desk - Card Fee and Profit Calculator</title>
+<meta name="description" content="Calculate real net profit selling trading cards on eBay, TCGplayer, Vinted, and Misprint. Fee breakdown included.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+<style>
+  :root { --bg:#0f172a; --panel:#1e293b; --line:#334155; --ink:#e2e8f0; --dim:#94a3b8; --acc:#818cf8; --ok:#34d399; --bad:#fb7185; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; padding:16px 16px 60px; }
+  .wrap { max-width:1000px; margin:0 auto; }
+  header { border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:18px; }
+  h1 { font-size:1.45rem; margin:0 0 6px; letter-spacing:-0.01em; }
+  .sub { color:var(--dim); font-size:.87rem; margin:0; }
+  .warn { background:#422006; border:1px solid #a16207; color:#fde68a; padding:10px 12px; border-radius:8px; font-size:.82rem; margin-bottom:16px; }
+  .info { background:#0c4a6e; border:1px solid #0284c7; color:#bae6fd; padding:10px 12px; border-radius:8px; font-size:.82rem; margin-bottom:16px; }
+  .tabs { display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; }
+  .tab { background:var(--panel); border:1px solid var(--line); color:var(--dim); padding:8px 14px; border-radius:8px; font-size:.85rem; cursor:pointer; }
+  .tab.active { color:#fff; border-color:var(--acc); }
+  .panel { display:none; }
+  .panel.active { display:block; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; background:var(--panel); padding:16px; border:1px solid var(--line); border-radius:12px; }
+  label { display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.07em; color:var(--dim); margin-bottom:5px; }
+  input, select { width:100%; background:var(--bg); border:1px solid var(--line); color:var(--ink); border-radius:8px; padding:9px 10px; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.95rem; }
+  input:focus, select:focus { outline:none; border-color:var(--acc); }
+  .grid { margin-bottom:16px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:4px; }
+  .vcard { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .vcard h3 { margin:0 0 2px; font-size:.95rem; }
+  .vcard .note { color:var(--dim); font-size:.72rem; margin:0 0 10px; }
+  .row { display:flex; justify-content:space-between; gap:10px; font-size:.78rem; padding:3px 0; border-bottom:1px dashed #263348; }
+  .row:last-child { border-bottom:0; }
+  .row span:first-child { color:var(--dim); }
+  .row span:last-child { font-family:ui-monospace, Menlo, monospace; }
+  .big { font-size:1.7rem; font-weight:700; font-family:ui-monospace, Menlo, monospace; margin:6px 0 2px; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); }
+  .lines { margin-top:20px; }
+  table { width:100%; border-collapse:collapse; font-size:.76rem; }
+  th { text-align:left; color:var(--dim); font-weight:500; padding:6px 8px; border-bottom:1px solid var(--line); text-transform:uppercase; letter-spacing:.05em; font-size:.66rem; }
+  td { padding:6px 8px; border-bottom:1px solid #1e293b; vertical-align:top; }
+  td.num { text-align:right; font-family:ui-monospace, Menlo, monospace; white-space:nowrap; }
+  .src { color:#64748b; font-size:.68rem; }
+  footer { margin-top:28px; border-top:1px solid var(--line); padding-top:14px; color:var(--dim); font-size:.75rem; }
+  .results { margin-top:12px; }
+  .hit { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:8px; cursor:pointer; }
+  .hit:hover { border-color:var(--acc); }
+  .hit .t { font-size:.9rem; font-weight:600; }
+  .hit .m { color:var(--dim); font-size:.74rem; font-family:ui-monospace, Menlo, monospace; }
+</style>
+<meta name="description" content="Free card profit calculator for eBay, TCGplayer, Vinted, and Misprint. Seller fees, net payout, break-even price, and max buy offer, with the math shown line by line.">
+<link rel="canonical" href="https://opxp.online/tools/arbitrage-desk/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OPXP Online">
+<meta property="og:title" content="OPXP Arbitrage Desk - Card Fee and Profit Calculator">
+<meta property="og:description" content="Free card profit calculator for eBay, TCGplayer, Vinted, and Misprint. Seller fees, net payout, break-even price, and max buy offer, with the math shown line by line.">
+<meta property="og:url" content="https://opxp.online/tools/arbitrage-desk/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "OPXP Arbitrage Desk", "applicationCategory": "FinanceApplication", "operatingSystem": "Web", "url": "https://opxp.online/tools/arbitrage-desk/", "description": "Free card profit calculator for eBay, TCGplayer, Vinted, and Misprint. Seller fees, net payout, break-even price, and max buy offer, with the math shown line by line.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "OPXP Online"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "OPXP Online", "item": "https://opxp.online/"}, {"@type": "ListItem", "position": 2, "name": "Arbitrage Desk", "item": "https://opxp.online/tools/arbitrage-desk/"}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>OPXP Arbitrage Desk</h1>
+    <p class="sub">Net profit on a card sale, with the fee math shown. No account, no install, works offline.</p>
+  </header>
+
+  <div id="verifyWarn" class="warn" style="display:none"></div>
+  <div id="dataWarn" class="info" style="display:none"></div>
+
+  <nav class="tabs">
+    <button class="tab active" data-panel="p-fee">Fee &amp; margin</button>
+    <button class="tab" data-panel="p-buy">Max buy offer</button>
+    <button class="tab" data-panel="p-lookup">Card lookup</button>
+  </nav>
+
+  <section class="panel active" id="p-fee">
+    <div class="grid">
+      <div><label>Sale price ($)</label><input type="number" id="f-price" value="19.99" step="0.01" min="0"></div>
+      <div><label>Your cost ($)</label><input type="number" id="f-cogs" value="5.00" step="0.01" min="0"></div>
+      <div><label>Postage ($)</label><input type="number" id="f-postage" value="0.80" step="0.01" min="0"></div>
+      <div><label>Supplies ($)</label><input type="number" id="f-supplies" value="0.15" step="0.01" min="0"></div>
+      <div><label>Target margin %</label><input type="number" id="f-target" value="15" step="1" min="0"></div>
+    </div>
+    <div class="cards" id="feeResults"></div>
+    <div class="lines">
+      <table id="feeTable"><thead><tr><th>Venue</th><th>Fee line</th><th>How it was calculated</th><th class="num">Amount</th></tr></thead><tbody></tbody></table>
+    </div>
+  </section>
+
+  <section class="panel" id="p-buy">
+    <div class="grid">
+      <div><label>Market value ($)</label><input type="number" id="b-market" value="20.00" step="0.01" min="0"></div>
+      <div><label>Target margin %</label><input type="number" id="b-target" value="25" step="1" min="0"></div>
+      <div><label>Postage ($)</label><input type="number" id="b-postage" value="0.80" step="0.01" min="0"></div>
+      <div><label>Supplies ($)</label><input type="number" id="b-supplies" value="0.15" step="0.01" min="0"></div>
+    </div>
+    <p class="sub" style="margin-top:0">The most you can pay for a card and still clear your margin when selling at market value. Same card, four venues.</p>
+    <div class="cards" id="buyResults"></div>
+  </section>
+
+  <section class="panel" id="p-lookup">
+    <div class="grid" style="grid-template-columns:1fr">
+      <div>
+        <label>Card name, number, or set</label>
+        <input type="text" id="l-query" placeholder="e.g. Mega Gengar ex, 269/217, Ascended Heroes" autocomplete="off">
+      </div>
+    </div>
+    <div class="results" id="lookupResults"></div>
+  </section>
+
+  <footer>
+    <p><strong>Not financial advice.</strong> Fee schedule: <span id="feeVersion">unknown</span>. Market data is observational history from the last completed scan, not a prediction.</p>
+    <p>Built by OPXP Online.</p>
+  </footer>
+</div>
+
+<script src="fee-engine.js"></script>
+<script src="fees.config.js"></script>
+<script src="data/latest.js"></script>
+<script src="app.js"></script>
+
+<p style="text-align:center;margin-top:2rem;"><a href="cards/" style="color:#22D3EE;">Browse card prices by set</a></p>
+</body>
+</html>

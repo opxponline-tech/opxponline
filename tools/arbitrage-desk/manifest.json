@@ -1,0 +1,23 @@
+{
+  "name": "OPXP Arbitrage Desk",
+  "short_name": "Arbitrage Desk",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "description": "Net profit and fee breakdown for selling trading cards on eBay, TCGplayer, Vinted, and Misprint.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "id": "./index.html",
+  "scope": "./"
+}
