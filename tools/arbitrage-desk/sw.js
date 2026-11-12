@@ -1,4 +1,4 @@
-const CACHE_NAME = 'opxp-arbitrage-desk-v2';
+const CACHE_NAME = 'opxp-arbitrage-desk-v3';
 const ASSETS = [
   './',
   './index.html',
