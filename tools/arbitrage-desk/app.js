@@ -147,7 +147,6 @@
         '<p class="note">' + (venue.confidence === 'unverified' ? 'unverified fee schedule' : 'verified') +
         (venue.last_verified ? ' as of ' + esc(venue.last_verified) : '') + '</p>' +
         tierSelect(venue) +
-        (venue.eligibility_note ? '<p class="warn">' + esc(venue.eligibility_note) + '</p>' : '') +
         '<div class="row"><span>Fees</span><span>-' + money(r.feesTotal) + '</span></div>' +
         '<div class="row"><span>You receive</span><span>' + money(r.netPayout) + '</span></div>' +
         '<div class="row"><span>Net profit</span><span class="' + cls + '">' + money(r.profit) + '</span></div>' +

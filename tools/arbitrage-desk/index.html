@@ -6,20 +6,20 @@
 <title>OPXP Arbitrage Desk - Card Fee and Profit Calculator</title>
 <meta name="description" content="Calculate real net profit selling trading cards on eBay, TCGplayer, Vinted, and Misprint. Fee breakdown included.">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
+<link rel="stylesheet" href="tokens.css">
+<meta name="theme-color" content="var(--accent)">
 <style>
-  :root { --bg:#0f172a; --panel:#1e293b; --line:#334155; --ink:#e2e8f0; --dim:#94a3b8; --acc:#818cf8; --ok:#34d399; --bad:#fb7185; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; padding:16px 16px 60px; }
   .wrap { max-width:1000px; margin:0 auto; }
   header { border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:18px; }
   h1 { font-size:1.45rem; margin:0 0 6px; letter-spacing:-0.01em; }
   .sub { color:var(--dim); font-size:.87rem; margin:0; }
-  .warn { background:#422006; border:1px solid #a16207; color:#fde68a; padding:10px 12px; border-radius:8px; font-size:.82rem; margin-bottom:16px; }
-  .info { background:#0c4a6e; border:1px solid #0284c7; color:#bae6fd; padding:10px 12px; border-radius:8px; font-size:.82rem; margin-bottom:16px; }
+  .warn { background:var(--warn-bg); border:1px solid var(--warn-line); color:var(--warn-ink); padding:10px 12px; border-radius:8px; font-size:.82rem; margin-bottom:16px; }
+  .info { background:var(--raised); border:1px solid var(--line); border-left:3px solid var(--accent); color:var(--muted); padding:10px 12px; border-radius:8px; font-size:.82rem; margin-bottom:16px; }
   .tabs { display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; }
   .tab { background:var(--panel); border:1px solid var(--line); color:var(--dim); padding:8px 14px; border-radius:8px; font-size:.85rem; cursor:pointer; }
-  .tab.active { color:#fff; border-color:var(--acc); }
+  .tab.active { color:var(--text); border-color:var(--acc); }
   .panel { display:none; }
   .panel.active { display:block; }
   .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; background:var(--panel); padding:16px; border:1px solid var(--line); border-radius:12px; }
@@ -31,7 +31,7 @@
   .vcard { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; }
   .vcard h3 { margin:0 0 2px; font-size:.95rem; }
   .vcard .note { color:var(--dim); font-size:.72rem; margin:0 0 10px; }
-  .row { display:flex; justify-content:space-between; gap:10px; font-size:.78rem; padding:3px 0; border-bottom:1px dashed #263348; }
+  .row { display:flex; justify-content:space-between; gap:10px; font-size:.78rem; padding:3px 0; border-bottom:1px dashed var(--line); }
   .row:last-child { border-bottom:0; }
   .row span:first-child { color:var(--dim); }
   .row span:last-child { font-family:ui-monospace, Menlo, monospace; }
@@ -40,15 +40,72 @@
   .lines { margin-top:20px; }
   table { width:100%; border-collapse:collapse; font-size:.76rem; }
   th { text-align:left; color:var(--dim); font-weight:500; padding:6px 8px; border-bottom:1px solid var(--line); text-transform:uppercase; letter-spacing:.05em; font-size:.66rem; }
-  td { padding:6px 8px; border-bottom:1px solid #1e293b; vertical-align:top; }
+  td { padding:6px 8px; border-bottom:1px solid #241F1D; vertical-align:top; }
   td.num { text-align:right; font-family:ui-monospace, Menlo, monospace; white-space:nowrap; }
-  .src { color:#64748b; font-size:.68rem; }
+  .src { color:var(--muted); font-size:.68rem; }
+
+  .toolnav { display:flex; gap:14px; align-items:center; justify-content:space-between;
+             flex-wrap:wrap; margin-bottom:14px; font-size:.82rem; }
+  .toolnav a { color:var(--accent); text-decoration:none; }
+  .toolnav a:hover { text-decoration:underline; }
+  .install { margin-top:26px; border:1px solid var(--line); border-radius:12px;
+             background:var(--surface); padding:16px 18px; }
+  .install h2 { font-size:1rem; margin:0 0 10px; }
+  .install ol { margin:0; padding-left:1.1rem; font-size:.82rem; color:var(--muted); }
+  .install li { margin-bottom:8px; }
+  .install strong { color:var(--text); font-weight:600; }
+  .install .note { margin:12px 0 0; font-size:.76rem; color:var(--dim); }
   footer { margin-top:28px; border-top:1px solid var(--line); padding-top:14px; color:var(--dim); font-size:.75rem; }
   .results { margin-top:12px; }
   .hit { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:8px; cursor:pointer; }
   .hit:hover { border-color:var(--acc); }
   .hit .t { font-size:.9rem; font-weight:600; }
   .hit .m { color:var(--dim); font-size:.74rem; font-family:ui-monospace, Menlo, monospace; }
+
+  /* Native select popup. The open list is drawn by the OS, so it needs
+     color-scheme on the element itself, not just on :root. */
+  select, ::picker(select) { color-scheme: dark; }
+
+  select {
+    background: var(--bg, #131110);
+    color: var(--ink, #F5F3EF);
+  }
+
+  /* Fallback for engines without customizable select (Firefox, older Safari) */
+  option { background: #1C1917; color: #F5F3EF; }
+
+  @supports (appearance: base-select) {
+    select {
+      appearance: base-select;
+      border-radius: 8px;
+      padding: 9px 10px;
+    }
+    select::picker-icon {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #F59E0B;
+    }
+    ::picker(select) {
+      background: #1C1917;
+      color: #F5F3EF;
+      border: 1px solid #3A3330;
+      border-radius: 8px;
+      padding: 4px;
+    }
+    ::picker(select) option {
+      background: #1C1917;
+      color: #F5F3EF;
+      border-radius: 4px;
+      padding: 6px 8px;
+    }
+    ::picker(select) option:checked {
+      background: #292524;
+      color: #F59E0B;
+    }
+  }
 </style>
 <meta name="description" content="Free card profit calculator for eBay, TCGplayer, Vinted, and Misprint. Seller fees, net payout, break-even price, and max buy offer, with the math shown line by line.">
 <link rel="canonical" href="https://opxp.online/tools/arbitrage-desk/">
@@ -63,6 +120,12 @@
 </head>
 <body>
 <div class="wrap">
+  <div class="toolnav">
+    <a href="/">&larr; OPXP Online</a>
+    <span><a href="/#sell">Sell your collection</a> &nbsp;&middot;&nbsp;
+          <a href="cards/">Card prices</a></span>
+  </div>
+
   <header>
     <h1>OPXP Arbitrage Desk</h1>
     <p class="sub">Net profit on a card sale, with the fee math shown. No account, no install, works offline.</p>
@@ -112,6 +175,24 @@
     <div class="results" id="lookupResults"></div>
   </section>
 
+
+  <section class="install">
+    <h2>Install on your phone</h2>
+    <p style="margin:0 0 10px;font-size:.82rem;color:var(--muted);">The desk works offline
+    once installed, so the fee math is available at a card show with no signal.</p>
+    <ol>
+      <li><strong>iPhone or iPad:</strong> open this page in Safari, tap the Share button,
+          then <strong>Add to Home Screen</strong>. Launch it from your home screen and it
+          opens full screen.</li>
+      <li><strong>Android:</strong> open this page in Chrome, tap the three-dot menu at the
+          top right, then <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+      <li><strong>Desktop Chrome or Edge:</strong> look for the install icon at the right of
+          the address bar and click it.</li>
+    </ol>
+    <p class="note">Installing needs a secure connection, which this site already uses.
+    Market prices come from the last completed scan, so they update when the site updates,
+    not while you are offline.</p>
+  </section>
   <footer>
     <p><strong>Not financial advice.</strong> Fee schedule: <span id="feeVersion">unknown</span>. Market data is observational history from the last completed scan, not a prediction.</p>
     <p>Built by OPXP Online.</p>

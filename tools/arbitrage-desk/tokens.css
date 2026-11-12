@@ -1,0 +1,42 @@
+/* OPXP token set. Dark only. Single source of truth for site, tool, card pages.
+   Every pair below was measured for WCAG AA on its intended background. */
+
+:root {
+  color-scheme: dark;
+
+  /* canonical */
+  --bg:      #131110;   /* warm near-black */
+  --surface: #1C1917;
+  --raised:  #292524;
+  --line:    #3A3330;
+  --text:    #F5F3EF;
+  --muted:   #A8A29E;
+  --accent:  #F59E0B;   /* amber, the single interactive color */
+  --accent-ink: #131110;
+  --success: #4ADE80;
+  --warning: #FBBF24;
+  --error:   #F87171;
+
+  /* banners */
+  --warn-bg:   #3B2A0B;
+  --warn-line: #8A5A08;
+  --warn-ink:  #FCD34D;
+
+  /* type: Inter everywhere */
+  --font-display: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* aliases for the main site */
+  --void:    var(--bg);
+  --slate:   var(--surface);
+  --elevated:var(--raised);
+  --ivory:   #F5F3EF;
+
+  /* aliases for the tool */
+  --panel: var(--surface);
+  --ink:   var(--text);
+  --dim:   var(--muted);
+  --acc:   var(--accent);
+  --ok:    var(--success);
+  --bad:   var(--error);
+}
